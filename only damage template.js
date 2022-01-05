@@ -63,15 +63,9 @@ default: "Cancel",
 //do attack
 async function damage_roll(boosts,bonus){
 	if(!(effect.localeCompare(``)===0)){
-        ChatMessage.create({
-            user: game.user._id,
-            flavor: name,
-            speaker: ChatMessage.getSpeaker({token:actor}),
-            content: effect
-        });
+        game.macros.getName('ability-text').execute({token: [name, effect]});
 	}
-	//game.macros.getName('ability-flavor').execute({token: [name, effect]});
-    console.log(`ability-template: boosts: `+boosts+` bonus: `+bonus);
+	console.log(`ability-template: boosts: `+boosts+` bonus: `+bonus);
     //do damage
     game.macros.getName('ability-damage').execute({token: [result,hit,miss,crit,boosts,bonus,0]});
     if(!(area.localeCompare(``)===0)){
