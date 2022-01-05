@@ -1,4 +1,4 @@
-//ability attack
+//ability attack [DEPRECATED]
 let boons = token[0];
 const controlled = canvas.tokens.controlled;
 if (controlled.length > 0) {

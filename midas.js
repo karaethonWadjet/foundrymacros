@@ -1,4 +1,4 @@
-game.macros.getName('ability-flavor').execute(
+game.macros.getName('ability-text').execute(
 {token:[`MIDAS`, `<b>Effect:</b> You transmute yourself into solid stone,
 metal, or gemstone. You are immune to all
 damage from the triggering action. After the

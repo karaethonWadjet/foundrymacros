@@ -1,4 +1,4 @@
-// JavaScript source code
+// ICON Narrative Play Fortune Roll
 let optionsText = "";
 optionsText += `<option value=0>0 [2d6kl]</option>`;
 let i = 1;
@@ -34,9 +34,6 @@ default: "Cancel",
     }}).render(true); 
 
 async function disp(boons){
-    const controlled = canvas.tokens.controlled;
-
-    if (controlled.length > 0) {
         let rollterm = ``;
         if(boons === 0){
             rollterm = `2d6kl`;
@@ -71,5 +68,4 @@ async function disp(boons){
             speaker: ChatMessage.getSpeaker({token:actor}),
             content: await r.render()+result_html,
         });
-    }
 }

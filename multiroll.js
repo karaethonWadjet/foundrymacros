@@ -1,3 +1,4 @@
+// example of a chat message containing more than one die roll
 const controlled = canvas.tokens.controlled;
 if (controlled.length > 0) {
     let actors = [];
