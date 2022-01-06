@@ -1,4 +1,4 @@
-// for abilities that do damage without an attack roll
+// for abilities that do damage without needing an attack roll
 //preliminary check for token and target selected
 const controlled = canvas.tokens.controlled;
 if (controlled.length <= 0){
@@ -14,13 +14,11 @@ if (controlled.length <= 0){
 	}).render(true);
 	return;
 }
-
 let direct_dmg = token[0];
 let area = token[1];
 let area_dmg = token[2];
 let effect = token[3];
 let name = token[4];
-
 //do dialog to get boosts and bonus
 let optionsText2 = "";
 for(i = 0; i < 11; i++){
@@ -60,16 +58,16 @@ default: "Cancel",
         let boosts = parseInt(html.find('[name=boost-dmg]')[0].value);
         damage_roll(boosts, bonus);}
     }}).render(true);
-//do attack
 async function damage_roll(boosts,bonus){
+	let dmg_html = effect + ``;
 	if(!(effect.localeCompare(``)===0)){
-        game.macros.getName('ability-text').execute({token: [name, effect]});
+		dmg_html += `<hr>`; // add horizontal line to divide effect from rolls
 	}
-	console.log(`ability-template: boosts: `+boosts+` bonus: `+bonus);
     //do damage
-    game.macros.getName('ability-damage').execute({token: [result,hit,miss,crit,boosts,bonus,0]});
+    dmg_html += `<div style="text-align:center">`+await game.macros.getName('ability-damage').execute({token: [direct_dmg,boosts,bonus,0]});
     if(!(area.localeCompare(``)===0)){
         //do area effect damage
-        game.macros.getName('ability-damage').execute({token: [result,area_dam,area_dam,area_dam,0,0,1]});
+        dmg_html += `<hr>` + await game.macros.getName('ability-damage').execute({token: [area_dmg,0,0,1]});
     }
+	game.macros.getName('ability-text').execute({token: [name, dmg_html+`</div`]});
 }

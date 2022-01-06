@@ -1,3 +1,4 @@
+// For abilities that require an attack roll
 //preliminary check for token and target selected
 const controlled = canvas.tokens.controlled;
 if (controlled.length <= 0){
@@ -31,7 +32,7 @@ let hit = token[0];
 let miss = token[1];
 let crit = token[2];
 let area = token[3];
-let area_dam = token[4];
+let area_dmg = token[4];
 let effect = token[5];
 let name = token[6];
 //do dialog to get boons, boosts and bonus
@@ -105,23 +106,27 @@ async function attack_roll(boons,boosts,bonus){
     let def = mark.actor.data.data.attributes.defense.value;
 
     let result_text = '';
-    let atk_result = 0;
+    let direct_dmg = 0;
     if(r.total >= 20){
         result_text = `CRITICAL HIT!`;
-        atk_result = 3;
+        direct_dmg = crit;
     } else if(r.total >= def){
         result_text = `HIT!`;
-        atk_result = 1;
+        direct_dmg = hit;
     } else {
         result_text = `MISS!`;
-        atk_result = 2;
+        direct_dmg = miss;
     };
-    effect += `<hr><div style="text-align:center">Attack Roll:`+await r.render()+`<h2>`+result_text+`</h2><hr></div>`
-    game.macros.getName('ability-text').execute({token: [name, effect]});
+	let atk_html = effect + ``; 
+	if(!(effect.localeCompare(``)===0)){
+		atk_html += `<hr>` // add horizontal line to divide effect from rolls
+	}
+	atk_html += `<div style="text-align:center">Attack Roll:`+await r.render()+`<h2>`+result_text+`</h2><hr>`
     //do damage
-    game.macros.getName('ability-damage').execute({token: [atk_result,hit,miss,crit,boosts,bonus,0]});
+    atk_html += await game.macros.getName('ability-damage').execute({token: [direct_dmg,boosts,bonus,0]});
     if(!(area.localeCompare(``)===0)){
         //do area effect damage
-        game.macros.getName('ability-damage').execute({token: [atk_result,area_dam,area_dam,area_dam,0,0,1]});
+        atk_html += `<hr>` + await game.macros.getName('ability-damage').execute({token: [area_dmg,0,0,1]});
     }
+	game.macros.getName('ability-text').execute({token: [name, atk_html+`</div>`]});
 }
