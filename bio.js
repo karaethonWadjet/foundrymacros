@@ -1,6 +1,6 @@
 //GEOMANCER-BIO
 const ability = {
-	image_path: `https://cdn.discordapp.com/attachments/730664861457055815/928467667172618323/explosion-lava-stone-green.webp`,
+	image_path: `https://i.ibb.co/HTwqRpN/explosion-lava-stone-green.webp`,
     ability_name: `BIO`,
 	attack: {
 		attack_type: `ranged`,
@@ -34,5 +34,27 @@ const ability = {
         piercing: false
 	}
 };
-
+let confirmed = false;
 game.macros.getName('ability_execute').execute(ability);
+new Dialog({
+	title: "Infuse 2: Salted Earth",
+	content: `Attack area becomes difficult terrain for the rest of combat.`,
+	buttons: {
+		no: {
+			icon: '<i class="fas fa-times"></i>',
+			label: "nah",
+			callback: () => confirmed = false
+		},
+		yes: {
+			icon: '<i class="fas fa-dice"></i>',
+			label: "DO IT",
+			callback: () => confirmed = true
+		}
+	},
+	default: "nah",
+	close: html => {
+		if(confirmed){
+			game.macros.getName('terrain double').execute();
+		}
+	}	
+}).render(true);

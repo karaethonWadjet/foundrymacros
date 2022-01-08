@@ -1,6 +1,6 @@
 //GEOMANCER-EARTH
 const ability = {
-	image_path: `https://cdn.discordapp.com/attachments/730664861457055815/928465834421157958/barrier-stone-explosion-debris.webp`,
+	image_path: `https://i.ibb.co/bsVSKMp/barrier-stone-explosion-debris.webp`,
 	ability_name: `EARTH`,
     attack: {
         attack_type: `ranged`,
@@ -36,3 +36,4 @@ const ability = {
     }
 };
 game.macros.getName('ability_execute').execute(ability);
+game.macros.getName('terrain double').execute();
